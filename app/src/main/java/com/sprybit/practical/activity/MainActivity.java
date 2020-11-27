@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * set Home Indicator Icon
      */
     public void setHomeIndicatorIcon(int iconImage) {
-        getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(iconImage));
+        getSupportActionBar().setHomeAsUpIndicator(getDrawable(iconImage));
     }
 
 

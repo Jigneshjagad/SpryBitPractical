@@ -102,7 +102,7 @@ public class QuestionOneFragment extends Fragment {
     // set Toolbar View
     private void setToolBarView() {
         mActivity.setTitle("Question1");
-        mActivity.setHomeIndicatorIcon(R.drawable.ic_menu_24);
+//        mActivity.setHomeIndicatorIcon(R.drawable.ic_menu_24);
     }
 
     @Override
