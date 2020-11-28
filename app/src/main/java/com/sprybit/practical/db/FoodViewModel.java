@@ -27,10 +27,6 @@ public class FoodViewModel extends AndroidViewModel {
         foodRepository.deleteData(uid);
     }
 
-    public List<Order> getOrderList(int uid) {
-        return foodRepository.getOrderList(uid);
-    }
-
     public LiveData<List<Order>> getOrderLiveData(int uid) {
         return foodRepository.getOrderLiveData(uid);
     }

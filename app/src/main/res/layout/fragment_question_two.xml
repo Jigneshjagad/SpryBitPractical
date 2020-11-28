@@ -7,11 +7,11 @@
     tools:context=".fragment.QuestionTwoFragment">
 
     <Button
-        android:id="@+id/btnFirstTime"
+        android:id="@+id/btnInsertRawData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="FirstTime Add Data"
+        android:text="Insert Raw Data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnDelete"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFirstTime" />
+        app:layout_constraintTop_toBottomOf="@+id/btnInsertRawData" />
 
     <Button
         android:id="@+id/btnDelete"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/btnFirstTime" />
+        app:layout_constraintTop_toBottomOf="@+id/btnInsertRawData" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvOrder"

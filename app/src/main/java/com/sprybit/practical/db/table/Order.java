@@ -21,11 +21,11 @@ public class Order {
     @ColumnInfo(name = "itemPrice")
     private int itemPrice;
 
-    public Order(int userId, String itemName, int itemPrice) {
+    /*public Order(int userId, String itemName, int itemPrice) {
         this.userId = userId;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
-    }
+    }*/
 
     public int getOrderId() {
         return orderId;

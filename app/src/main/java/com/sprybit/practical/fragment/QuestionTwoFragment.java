@@ -1,6 +1,7 @@
 package com.sprybit.practical.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,26 +57,47 @@ public class QuestionTwoFragment extends Fragment implements AdapterView.OnItemS
     private void initView() {
         mActivity = (MainActivity) getActivity();
         foodViewModel = new ViewModelProvider(this).get(FoodViewModel.class);
-        binding.btnFirstTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mActivity, "Your Data Create!", Toast.LENGTH_SHORT).show();
-                foodViewModel.insetData();
-            }
-        });
+
+
         setToolBarView();
         initDataAndSetSpinner();
         initSetRecyclerView();
+
+        binding.btnInsertRawData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.rvOrder.setVisibility(View.GONE);
+                //insert data in database
+                foodViewModel.insetData();
+
+                //manage selection after create database
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        selectedUserId = -1;
+                        binding.spinner.setSelection(0);
+                        Toast.makeText(mActivity, "Your Data Create!", Toast.LENGTH_SHORT).show();
+                    }
+                }, 2000);
+            }
+        });
 
         binding.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (selectedUserId != -1) {
+                    //delete select user and order data
                     foodViewModel.deleteData(selectedUserId);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            selectedUserId = -1;
+                            binding.spinner.setSelection(0);
+                        }
+                    }, 1000);
                 } else {
                     Toast.makeText(mActivity, "Please select user!", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -107,6 +129,7 @@ public class QuestionTwoFragment extends Fragment implements AdapterView.OnItemS
                     firstCall = 2;
                     return;
                 }
+                //clear old list and update with new
                 userList.clear();
                 userFilterList.clear();
                 spinnerAdapter.clear();
@@ -123,7 +146,6 @@ public class QuestionTwoFragment extends Fragment implements AdapterView.OnItemS
     // set Toolbar View
     private void setToolBarView() {
         mActivity.setTitle("Question2");
-//        mActivity.setHomeIndicatorIcon(R.drawable.ic_menu_24);
     }
 
     @Override
@@ -134,11 +156,18 @@ public class QuestionTwoFragment extends Fragment implements AdapterView.OnItemS
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
         if (position != 0) {
+            //get id of selected position
             selectedUserId = userList.get(position - 1).getUserId();
             updateOrderList(selectedUserId);
+            binding.rvOrder.setVisibility(View.VISIBLE);
         } else {
+            //position 0 = selected user
             selectedUserId = -1;
+            orderList.clear();
+            orderAdapter.setOrderList(orderList);
+            binding.rvOrder.setVisibility(View.GONE);
         }
     }
 
@@ -146,9 +175,12 @@ public class QuestionTwoFragment extends Fragment implements AdapterView.OnItemS
         foodViewModel.getOrderLiveData(selectedUserId).observe(this, new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
-                orderList = orders;
-                Log.e(TAG, "getDataAndSetSpinner: " + orderList.size());
-                orderAdapter.setOrderList(orderList);
+                //set recyclerview data according spinner selection
+                if (binding.spinner.getSelectedItemPosition() != 0) {
+                    orderList = orders;
+                    Log.e(TAG, "getDataAndSetSpinner: " + orderList.size());
+                    orderAdapter.setOrderList(orderList);
+                }
             }
         });
     }

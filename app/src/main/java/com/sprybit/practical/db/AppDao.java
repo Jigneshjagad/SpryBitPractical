@@ -21,9 +21,6 @@ public abstract class AppDao {
     @Insert
     public abstract void insertOrder(Order order);
 
-    @Query("SELECT * From order_table WHERE userId LIKE :uid")
-    public abstract List<Order> getOrderList(int uid);
-
     @Query("SELECT * From user_table")
     public abstract LiveData<List<User>> getUserLiveData();
 
